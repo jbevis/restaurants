@@ -59,9 +59,13 @@ function App() {
     setFilters(Object.assign(filters, updated));
 
     if (!filters.state && !filters.genre) {
-      const sorted = sortAlphabetically(restaurants, 'name', true);
-
-      setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
+      if (search) {
+        handleSearch();
+      } else {
+        const sorted = sortAlphabetically(restaurants, 'name', true);
+  
+        setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
+      }
     } else {
       const filtered = filterRestaurants();
       setItemsToDisplay(filtered);
