@@ -1,8 +1,13 @@
-export const sortAlphabetically = (arr, key) => {
+export const sortAlphabetically = (arr, key, isAsc) => {
   return arr.sort((a,b) => {
-    const alc = a[key].toLowerCase(), blc = b[key].toLowerCase();
+    const alc = a[key].toLowerCase(), 
+          blc = b[key].toLowerCase();
     
-    return alc > blc ? 1 : alc < blc ? -1 : 0;
+    if (isAsc) {
+      return alc > blc ? 1 : alc < blc ? -1 : 0;
+    } else {
+      return alc < blc ? 1 : alc > blc ? -1 : 0;
+    }
    });
 };
 
@@ -13,7 +18,21 @@ export const calcTotalPages = (items, per) => {
     pageNumbers.push(i);
   }
   return pageNumbers;
-}
+};
+
+export const addGenres = (restaurants) => {
+  return restaurants.reduce((acc, locale) => {
+    const genres = locale.genre.split(",");
+    console.log(genres)
+    genres.forEach((g) => {
+      if (!acc.find((item) => item === g)) {
+        acc.push(g)
+      }
+    });
+    
+    return acc;
+  }, []);
+};
 
 export const stateCodes = [
   'AL', 

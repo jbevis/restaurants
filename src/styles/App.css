@@ -21,6 +21,8 @@
   margin: 20px;
 }
 
+
+
 .main {
   justify-content: center;
 }
@@ -42,4 +44,22 @@ ul {
 
 .active {
   font-weight: 900;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-input, .filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
