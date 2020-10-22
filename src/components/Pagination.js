@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Pagination = ({ totalPages, handleOnClick, currentPage }) => {
-  console.log(currentPage)
   return (
     <>
       <ul className="pagination-nav">

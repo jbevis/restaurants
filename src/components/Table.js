@@ -5,18 +5,22 @@ import PropTypes from 'prop-types';
 const Table = ({ restaurants }) => {
   return (
     <table className="table">
-      <tr className="table-header">
-        <th>Restaurant</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Phone</th>
-        <th>Genres</th>
-      </tr>
-      {restaurants.map((restaurant) => {
-        return (
-          <TableRow datum={restaurant} />
-        )
-      })}
+      <thead>
+        <tr className="table-header">
+          <th>Restaurant</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Phone</th>
+          <th>Genres</th>
+        </tr>
+      </thead>
+      <tbody>
+        {restaurants.map((restaurant) => {
+          return (
+            <TableRow key={restaurant.id} datum={restaurant} />
+          )
+        })}
+      </tbody>
     </table>
   );
 }

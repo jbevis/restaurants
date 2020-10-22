@@ -29,46 +29,73 @@ function App() {
 
   const filterRestaurants = () => {
     return restaurants.reduce((acc, restaurant) => {
-      const genres = restaurant.split(",");
+      const {state, genre} = filters;
 
-      if (filters.state) {
-        if(restaurant.state === filters.state) {
+      if (state && genre) {
+        if (restaurant.genre.includes(genre) && restaurant.state === state) {
           acc.push(restaurant)
         }
-      }
-
-      if (filters.genre) {
-        genres.forEach((genre) => {
-          if (genre === restaurant.genre) {
+      } else {
+        if (genre) {
+          if (restaurant.genre.includes(genre)) {
             acc.push(restaurant)
           }
-        });
-        
-        return acc;
+        }
+  
+        if (state) {
+         if (restaurant.state === state) {
+           acc.push(restaurant);
+         }
+        }
       }
-    }, [])
+      
+      return acc;
+    }, []);
   };
 
   const handleSetFilter = (event) => {
-    const filter = {[event.target.id]: event.target.value};
+    const updated = {[event.target.id]: event.target.value || null};
+    
+    setFilters(Object.assign(filters, updated));
 
-    setFilters(Object.assign(filters, filter));
-  };
-  
-  const handleStateFilter = (event) => {
-    const stateFilter = {state: event.target.value};
+    if (!filters.state && !filters.genre) {
+      const sorted = sortAlphabetically(restaurants, 'name', true);
 
-    setFilters(Object.assign(filters, stateFilter));
+      setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
+    } else {
+      const filtered = filterRestaurants();
+      setItemsToDisplay(filtered);
+    }
   };
+
+  const handleSearch = () => {
+    const results = restaurants.filter((restaurant) => {
+      return restaurant.name.toLowerCase().includes(search) ||
+             restaurant.city.toLowerCase().includes(search) ||
+             restaurant.genre.toLowerCase().includes(search)
+    });
+
+    setItemsToDisplay(results);
+  };
+
+  const handleSetSearch = (event) => {
+    setSearch(event.target.value);
+
+    if (event.target.value === "") {
+      const sorted = sortAlphabetically(restaurants, 'name', true);
+
+      setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
+    };
+  }
 
   useEffect(() => {
     fetchRestaurants()
     .then((data) => {
       const sorted = sortAlphabetically(data, 'name', true);
 
+      setPageNumbers(calcTotalPages(sorted, itemsPerPage));
       setRestaurants(sorted);
       setActiveGenres(addGenres(sorted).sort((a,b) => a - b));
-      setPageNumbers(calcTotalPages(sorted, itemsPerPage));
       setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
     })
     .catch((error) => {
@@ -80,12 +107,6 @@ function App() {
     setItemsToDisplay(restaurants.slice(indexOfFirstItem, indexOfLastItem));
   }, [currentPage]);
 
-  useEffect(() => {
-    const filtered = filterRestaurants();
-
-    setItemsToDisplay(filtered)
-  }, [filters]);
-
   const handlePageClick = (event) => {
     setCurrentPage(event.target.id);
   }
@@ -93,10 +114,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        Where the fuck should we eat?
+        Where should we eat?
       </header>
       <section className="main">
-       {itemsToDisplay?.length
+       {restaurants?.length
         ? <section>
             <section className="controls">
               <Pagination 
@@ -106,12 +127,15 @@ function App() {
               />
               <FilterControls 
                 genres={activeGenres}
-                handleSetSearch={(event) => console.log(event.target.value)}
-                handleSearch={() => console.log('searching')}
+                handleSetSearch={handleSetSearch}
+                handleSearch={handleSearch}
                 handleSetFilter={handleSetFilter}
               />
             </section>
-            <Table restaurants={itemsToDisplay} />
+            {(restaurants.length && !itemsToDisplay.length)
+              ? <h4>Sorry, no results were found.</h4>
+              : <Table restaurants={itemsToDisplay} />
+            }
           </section>
         : <h4>Loading...</h4>
        }

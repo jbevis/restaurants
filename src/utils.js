@@ -23,7 +23,7 @@ export const calcTotalPages = (items, per) => {
 export const addGenres = (restaurants) => {
   return restaurants.reduce((acc, locale) => {
     const genres = locale.genre.split(",");
-    console.log(genres)
+    
     genres.forEach((g) => {
       if (!acc.find((item) => item === g)) {
         acc.push(g)

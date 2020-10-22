@@ -19,7 +19,7 @@ const TableRow = ({ datum }) => {
       <td>{telephone}</td>
       <td>
         <ul>
-          {genre.split(',').map((item) => <li>{item}</li>)}
+          {genre.split(',').map((item) => <li key={item}>{item}</li>)}
         </ul>
       </td>
     </tr>
@@ -28,7 +28,7 @@ const TableRow = ({ datum }) => {
 
 TableRow.propTypes = {
   datum: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string,
     city: PropTypes.string,
     state: PropTypes.string,

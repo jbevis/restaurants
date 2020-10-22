@@ -54,12 +54,33 @@ ul {
 
 .user-input, .filters {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-evenly;
+  width: 500px;
 }
 
 .filter {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+.search {
+  display: inherit;
+}
+
+@media (max-width: 720px) {
+  .controls {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .user-input, .filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter, .search {
+    margin: 10px 0;
+  }
 }
