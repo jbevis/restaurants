@@ -88,7 +88,13 @@ function App() {
     if (event.target.value === "") {
       const sorted = sortAlphabetically(restaurants, 'name', true);
 
-      setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
+      if (filters.state || filters.genre) {
+        const filtered = filterRestaurants()
+
+        setItemsToDisplay(filtered);
+      } else {
+        setItemsToDisplay(sorted.slice(indexOfFirstItem, indexOfLastItem));
+      }
     };
   }
 
@@ -122,7 +128,7 @@ function App() {
       </header>
       <section className="main">
        {restaurants?.length
-        ? <section>
+        ? <section className="content">
             <section className="controls">
               <Pagination 
                 totalPages={pageNumbers} 

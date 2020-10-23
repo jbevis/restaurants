@@ -21,10 +21,13 @@
   margin: 20px;
 }
 
-
-
 .main {
   justify-content: center;
+}
+
+.content {
+  max-width: 750px;
+  margin: auto;
 }
 
 ul {
@@ -50,6 +53,11 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.pagination-nav {
+  display: inherit;
+  margin-left: 20px;
 }
 
 .user-input, .filters {

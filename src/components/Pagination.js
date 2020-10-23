@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 const Pagination = ({ totalPages, handleOnClick, currentPage }) => {
   return (
-    <>
+    <section className="pagination-nav">
+      <p>page:</p>
       <ul className="pagination-nav">
         {totalPages.map((number) => {
           return (
@@ -18,14 +19,14 @@ const Pagination = ({ totalPages, handleOnClick, currentPage }) => {
           );
         })}
       </ul>
-    </>
+    </section>
   );
 };
 
 Pagination.propTypes = {
   totalPages: PropTypes.arrayOf(PropTypes.number),
   handleOnClick: PropTypes.func,
-  currentPage: PropTypes.number
+  currentPage: PropTypes.string
 };
 
 export default Pagination;
